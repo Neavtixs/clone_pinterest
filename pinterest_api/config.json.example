@@ -1,10 +1,10 @@
 {
   "app": {
-    "name": ""
+    "name": "pinterest_api"
   },
   "web": {
     "prefork": false,
-    "port": 0
+    "port": 4000
   },
   "log": {
     "level": 6
@@ -12,23 +12,23 @@
   "database": {
     "username":"",
     "password":"",
-    "host": "",
-    "port": 0,
-    "name": "",
+    "host": "localhost",
+    "port": 5432,
+    "name": "clone_pinterest",
     "pool": {
-      "idle": 0,
-      "max": 0,
-      "lifetime": 0
+      "idle": 10,
+      "max": 100,
+      "lifetime": 300
     }
   },
   "google": {
-    "clientId": "",
+    "clientId": "893674384354-ihmgf62trm1qaga5aflv9g7scgh46obd.apps.googleusercontent.com",
     "clientSecret": ""
   },
   "frontend": {
     "protocol": "http",
     "domain": "127.0.0.1:3000"
-  },
+  }, 
   "backend":{
     "protocol":"http",
     "domain":"127.0.0.1:4000"

@@ -1,0 +1,18 @@
+CREATE TABLE users
+(
+	id VARCHAR(100) NOT NULL,
+	username VARCHAR(100) NOT NULL,
+	first_name VARCHAR(100) NOT NULL,
+	last_name VARCHAR(100),
+	email VARCHAR(100) NOT NULL,
+	password VARCHAR(100),
+	is_google BOOLEAN NOT NULL DEFAULT FALSE,
+	is_facebook BOOLEAN NOT NULL DEFAULT FALSE,
+	birth_date DATE,
+	profile_img VARCHAR(255),
+	token VARCHAR(100) NOT NULL,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (id),
+	UNIQUE (email),
+	UNIQUE (username)
+);

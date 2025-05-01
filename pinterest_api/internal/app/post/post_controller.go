@@ -40,10 +40,9 @@ func (c *PostController) HandleUpload(ctx *fiber.Ctx) error {
 		})
 	}
 
-	protocol := c.Viper.GetString("backend.protocol")
-	domain := c.Viper.GetString("backend.domain")
+	domain := c.Viper.GetString("backend")
 
-	if !strings.HasPrefix(request.Image, fmt.Sprintf("%s://%s/img/", protocol, domain)) {
+	if !strings.HasPrefix(request.Image, fmt.Sprintf("%s/api/img/", domain)) {
 		error := fiber.ErrBadRequest
 		return ctx.Status(error.Code).JSON(model.WebResponse[string]{
 			StatusCode: error.Code,

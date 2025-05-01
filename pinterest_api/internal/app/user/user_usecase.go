@@ -138,10 +138,9 @@ var (
 )
 
 func (u *UserUsecase) GoogleRedirect() string {
-	protocol := u.Viper.GetString("backend.protocol")
-	domain := u.Viper.GetString("backend.domain")
+	domain := u.Viper.GetString("backend")
 
-	googleOauthConfig.RedirectURL = fmt.Sprintf("%s://%s/auth/google/callback", protocol, domain)
+	googleOauthConfig.RedirectURL = fmt.Sprintf("%s/api/auth/google/callback", domain)
 	googleOauthConfig.ClientID = u.Viper.GetString("google.clientId")
 	googleOauthConfig.ClientSecret = u.Viper.GetString("google.clientSecret")
 	return googleOauthConfig.AuthCodeURL("state")

@@ -49,40 +49,39 @@ func (c *RouteConfig) Setup() {
 }
 
 func (c *RouteConfig) SetupGuestRoute() {
+	api := c.App.Group("/api")
 
-	c.App.Post("/auth/register", c.UserController.HandleRegisterByEmail)
-	c.App.Post("/auth/login", c.UserController.HandleLoginByEmail)
-	c.App.Get("/auth/google", c.UserController.HandleGoogleRedirect)
-	c.App.Get("/auth/google/callback", c.UserController.HandleGoogleCallback)
-	c.App.Get("/bye", c.UserController.Logout)
+	api.Post("/auth/register", c.UserController.HandleRegisterByEmail)
+	api.Post("/auth/login", c.UserController.HandleLoginByEmail)
+	api.Get("/auth/google", c.UserController.HandleGoogleRedirect)
+	api.Get("/auth/google/callback", c.UserController.HandleGoogleCallback)
+	api.Get("/bye", c.UserController.Logout)
 
-	c.App.Get("/user", c.UserController.HandleGetUser)
-	c.App.Put("/user/update_birth/:birth_date", c.UserController.HandleUpdateBirthDate)
-	c.App.Put("/user/update", c.UserController.HandleUpdateUser)
+	api.Get("/user", c.UserController.HandleGetUser)
+	api.Put("/user/update_birth/:birth_date", c.UserController.HandleUpdateBirthDate)
+	api.Put("/user/update", c.UserController.HandleUpdateUser)
 
-	c.App.Get("/users/:name", c.UserController.HandleGetListByName)
+	api.Get("/users/:name", c.UserController.HandleGetListByName)
 
-	c.App.Get("/img/:filename", c.PictureController.GetPicture)
-	c.App.Post("/img", c.PictureController.UploadPicture)
+	api.Get("/img/:filename", c.PictureController.GetPicture)
+	api.Post("/img", c.PictureController.UploadPicture)
 
-	c.App.Post("/post", c.PostController.HandleUpload)
-	c.App.Get("/post/:postId", c.PostController.HandleShowDetail)
-	c.App.Get("/posts/", c.PostController.HandleShowRandomList)
-	c.App.Get("/posts/:username", c.PostController.HandleListByUsername)
-	c.App.Delete("/post/:postId", c.PostController.HandleDelete)
+	api.Post("/post", c.PostController.HandleUpload)
+	api.Get("/post/:postId", c.PostController.HandleShowDetail)
+	api.Get("/posts/", c.PostController.HandleShowRandomList)
+	api.Get("/posts/:username", c.PostController.HandleListByUsername)
+	api.Delete("/post/:postId", c.PostController.HandleDelete)
 
-	c.App.Post("/follow/:username", c.FollowController.HandleFollowUser)
-	c.App.Delete("/unfollow/:username", c.FollowController.HandleUnFollowUser)
+	api.Post("/follow/:username", c.FollowController.HandleFollowUser)
+	api.Delete("/unfollow/:username", c.FollowController.HandleUnFollowUser)
 
-	c.App.Get("/user/:username", c.FollowController.HandleShowFollowByUsername)
+	api.Get("/user/:username", c.FollowController.HandleShowFollowByUsername)
 
-	c.App.Post("/save_post/:postid", c.SaveController.HandleSavePost)
-	c.App.Delete("/unsave_post/:postid", c.SaveController.HandleUnSavePost)
+	api.Post("/save_post/:postid", c.SaveController.HandleSavePost)
+	api.Delete("/unsave_post/:postid", c.SaveController.HandleUnSavePost)
 
-	c.App.Post("/like_post/:postid", c.LikePostController.HandleLikeaPost)
-	c.App.Delete("/unlike_post/:postid", c.LikePostController.HandleUnLikeaPost)
-
-	c.App.Post("/", c.PersonController.Insert)
+	api.Post("/like_post/:postid", c.LikePostController.HandleLikeaPost)
+	api.Delete("/unlike_post/:postid", c.LikePostController.HandleUnLikeaPost)
 }
 
 func (c *RouteConfig) SetupWebSocketRoutes() {

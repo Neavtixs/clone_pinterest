@@ -24,8 +24,6 @@ func NewUserController(userUsecase *UserUsecase, viper *viper.Viper) *UserContro
 }
 
 func (c *UserController) HandleRegisterByEmail(ctx *fiber.Ctx) error {
-	domain := c.Viper.GetString("frontend.domain")
-
 	request := new(RegisterUserByEmailRequest)
 
 	if err := ctx.BodyParser(request); err != nil {
@@ -48,8 +46,6 @@ func (c *UserController) HandleRegisterByEmail(ctx *fiber.Ctx) error {
 	cookie.Name = "auth-token"
 	cookie.Value = response.Token
 	cookie.Expires = time.Now().Add(24 * time.Hour)
-	cookie.HTTPOnly = true
-	cookie.Domain = strings.Split(domain, ":")[0]
 	ctx.Cookie(cookie)
 
 	return ctx.JSON(model.WebResponse[*RegisterUserResponse]{
@@ -59,7 +55,6 @@ func (c *UserController) HandleRegisterByEmail(ctx *fiber.Ctx) error {
 }
 
 func (c *UserController) HandleLoginByEmail(ctx *fiber.Ctx) error {
-	domain := c.Viper.GetString("frontend.domain")
 	request := new(LoginUserByEmailRequest)
 
 	if err := ctx.BodyParser(request); err != nil {
@@ -84,8 +79,6 @@ func (c *UserController) HandleLoginByEmail(ctx *fiber.Ctx) error {
 	cookie.Name = "auth-token"
 	cookie.Value = response.Token
 	cookie.Expires = time.Now().Add(24 * time.Hour)
-	cookie.HTTPOnly = true
-	cookie.Domain = strings.Split(domain, ":")[0]
 	ctx.Cookie(cookie)
 
 	return ctx.JSON(model.WebResponse[*UserResponse]{
@@ -101,24 +94,21 @@ func (c *UserController) HandleGoogleRedirect(ctx *fiber.Ctx) error {
 }
 
 func (c *UserController) HandleGoogleCallback(ctx *fiber.Ctx) error {
-	domain := c.Viper.GetString("frontend.domain")
-	protocol := c.Viper.GetString("frontend.protocol")
+	domain := c.Viper.GetString("frontend")
 	code := ctx.FormValue("code")
 
 	hasil, err := c.UserUsecase.GoogleCallback(ctx.UserContext(), code)
 	if err != nil {
-		return ctx.Redirect(fmt.Sprintf("%s://%s", protocol, domain))
+		return ctx.Redirect(domain)
 	}
 
 	cookie := new(fiber.Cookie)
 	cookie.Name = "auth-token"
 	cookie.Value = hasil.Token
 	cookie.Expires = time.Now().Add(24 * time.Hour)
-	cookie.HTTPOnly = true
-	cookie.Domain = strings.Split(domain, ":")[0]
 	ctx.Cookie(cookie)
 
-	return ctx.Redirect(fmt.Sprintf("%s://%s", protocol, domain))
+	return ctx.Redirect(domain)
 }
 
 func (c *UserController) HandleGetUser(ctx *fiber.Ctx) error {
@@ -152,12 +142,9 @@ func (c *UserController) HandleGetUser(ctx *fiber.Ctx) error {
 
 func (c *UserController) Logout(ctx *fiber.Ctx) error {
 
-	domain := c.Viper.GetString("frontend.domain")
 	cookie := new(fiber.Cookie)
 	cookie.Name = "auth-token"
 	cookie.Expires = time.Now().Add(-1 * time.Second)
-	cookie.HTTPOnly = true
-	cookie.Domain = strings.Split(domain, ":")[0]
 	ctx.Cookie(cookie)
 
 	return nil

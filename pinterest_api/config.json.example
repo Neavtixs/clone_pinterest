@@ -24,13 +24,7 @@
   "google": {
     "clientId": "893674384354-ihmgf62trm1qaga5aflv9g7scgh46obd.apps.googleusercontent.com",
     "clientSecret": ""
-  },
-  "frontend": {
-    "protocol": "http",
-    "domain": "127.0.0.1:3000"
   }, 
-  "backend":{
-    "protocol":"http",
-    "domain":"127.0.0.1:4000"
-  }
+  "backend": "http://127.0.0.1:4000",
+  "frontend":"http://127.0.0.1:3000"
 }
